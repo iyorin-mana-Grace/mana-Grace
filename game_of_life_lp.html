@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ゲームオブライフ | mana GRACE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: #faf8f4; color: #2c2c2a; line-height: 1.8; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, #e8f3e2 0%, #f5f0e8 50%, #e8eef8 100%);
+    padding: 80px 24px 72px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 260px; height: 260px; border-radius: 50%; background: rgba(158,225,203,0.2); }
+  .hero::after { content: ''; position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; border-radius: 50%; background: rgba(181,212,244,0.2); }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: #0f6e56;
+    border: 0.5px solid #5dcaa5;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    background: rgba(255,255,255,0.6);
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #2c2c2a;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 .en {
+    font-size: clamp(36px, 9vw, 56px);
+    letter-spacing: 0.14em;
+    color: #0f6e56;
+    display: block;
+    font-weight: 500;
+  }
+  .hero h1 .ja {
+    font-size: clamp(14px, 3vw, 18px);
+    letter-spacing: 0.22em;
+    color: #5f5e5a;
+    display: block;
+    margin-top: 8px;
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: #5f5e5a;
+    max-width: 360px;
+    margin: 24px auto 32px;
+    line-height: 1.9;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-days {
+    display: inline-flex;
+    gap: 8px;
+    background: rgba(255,255,255,0.7);
+    border: 0.5px solid #c0dd97;
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-size: 13px;
+    color: #3b6d11;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SECTIONS */
+  section { padding: 56px 24px; max-width: 680px; margin: 0 auto; }
+  .section-label { font-size: 10px; letter-spacing: 0.2em; color: #888780; text-transform: uppercase; margin-bottom: 8px; }
+  h2 { font-family: 'Noto Serif JP', serif; font-size: clamp(18px, 4vw, 24px); font-weight: 400; line-height: 1.7; margin-bottom: 24px; color: #2c2c2a; }
+  h2 em { font-style: normal; color: #0f6e56; }
+
+  /* PAIN */
+  .pain-section { background: #f5f0e8; }
+  .pain-section > div { max-width: 680px; margin: 0 auto; padding: 56px 24px; }
+  .pain-list { list-style: none; }
+  .pain-list li { padding: 14px 0 14px 20px; border-bottom: 0.5px solid #d3d1c7; font-size: 14px; color: #5f5e5a; position: relative; line-height: 1.8; }
+  .pain-list li::before { content: '…'; position: absolute; left: 0; color: #b4b2a9; }
+
+  /* AFTER */
+  .after-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 8px; }
+  @media (min-width: 480px) { .after-grid { grid-template-columns: repeat(2, 1fr); } }
+  .after-card { background: #fff; border: 0.5px solid #c0dd97; border-radius: 12px; padding: 16px 18px; display: flex; gap: 14px; align-items: flex-start; }
+  .after-icon { width: 32px; height: 32px; border-radius: 50%; background: #eaf3de; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+  .after-card p { font-size: 13px; color: #444441; line-height: 1.8; }
+  .after-card strong { display: block; font-size: 14px; font-weight: 500; color: #27500a; margin-bottom: 4px; }
+
+  /* RICHNESS */
+  .richness-section { background: #e8f3e2; }
+  .richness-section > div { max-width: 680px; margin: 0 auto; padding: 56px 24px; }
+  .richness-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px; }
+  .richness-item { background: rgba(255,255,255,0.7); border: 0.5px solid #9fe1cb; border-radius: 10px; padding: 14px; font-size: 13px; color: #085041; line-height: 1.7; }
+  .richness-item span { display: block; font-size: 18px; margin-bottom: 6px; }
+
+  /* CURRICULUM */
+  .day-block { margin-bottom: 32px; }
+  .day-label { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; color: #fff; background: #1d9e75; padding: 4px 12px; border-radius: 4px; margin-bottom: 14px; }
+  .curriculum-item { background: #fff; border-left: 2px solid #5dcaa5; border-top: 0.5px solid #e8f3e2; border-right: 0.5px solid #e8f3e2; border-bottom: 0.5px solid #e8f3e2; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 10px; }
+  .curriculum-item h3 { font-size: 14px; font-weight: 500; color: #27500a; margin-bottom: 6px; }
+  .curriculum-item p { font-size: 12px; color: #5f5e5a; line-height: 1.8; }
+
+  /* VETERAN */
+  .veteran-box { background: #fff; border: 0.5px solid #b5d4f4; border-radius: 12px; padding: 24px 20px; margin-top: 16px; }
+  .veteran-box h3 { font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 400; color: #185fa5; margin-bottom: 12px; }
+  .veteran-box p { font-size: 13px; color: #5f5e5a; line-height: 1.9; }
+  .veteran-box .highlight { color: #185fa5; font-weight: 500; }
+
+  /* QUOTES */
+  .quote-section { background: #f5f0e8; }
+  .quote-section > div { max-width: 680px; margin: 0 auto; padding: 56px 24px; }
+  .quote-block { background: #fff; border-left: 3px solid #1d9e75; border-top: 0.5px solid #e8f3e2; border-right: 0.5px solid #e8f3e2; border-bottom: 0.5px solid #e8f3e2; border-radius: 0 12px 12px 0; padding: 20px 20px 20px 24px; margin-bottom: 12px; }
+  .quote-block p { font-size: 13px; color: #444441; line-height: 1.9; }
+  .quote-block .q-tag { font-size: 11px; color: #888780; margin-top: 8px; }
+
+  /* INSTRUCTOR NOTE */
+  .instructor-note { background: #fff; border: 0.5px solid #c0dd97; border-radius: 12px; padding: 24px; margin-top: 16px; }
+  .instructor-note p { font-size: 13px; color: #5f5e5a; line-height: 1.9; }
+  .instructor-note .name { font-size: 14px; font-weight: 500; color: #27500a; margin-top: 16px; }
+  .instructor-note .role { font-size: 12px; color: #888780; }
+
+  /* CTA */
+  .cta-section { background: linear-gradient(150deg, #085041 0%, #1d9e75 100%); padding: 64px 24px; text-align: center; }
+  .cta-section h2 { font-family: 'Noto Serif JP', serif; font-size: clamp(18px, 4vw, 24px); font-weight: 400; color: #fff; margin-bottom: 16px; line-height: 1.7; }
+  .cta-section p { font-size: 13px; color: rgba(255,255,255,0.75); margin-bottom: 32px; line-height: 1.9; }
+  .cta-btn { display: inline-block; background: #fff; color: #085041; font-size: 14px; font-weight: 500; padding: 16px 40px; border-radius: 40px; text-decoration: none; letter-spacing: 0.05em; }
+  .cta-note { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 16px; }
+
+  /* FOOTER */
+  .footer-note { background: #2c2c2a; padding: 32px 24px; text-align: center; }
+  .footer-note p { font-size: 12px; color: #888780; line-height: 1.9; }
+  .footer-note .brand { font-size: 14px; color: #9fe1cb; font-weight: 500; margin-bottom: 8px; letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <div class="tag">Theta Healing® / mana GRACE</div>
+  <h1>
+    <span class="en">GAME OF LIFE</span>
+    <span class="ja">ゲームオブライフ</span>
+  </h1>
+  <p class="hero-sub">シータ波で現実創造の仕組みを体感する、<br>3日間の人生総決算の旅。</p>
+  <div class="hero-days">3日間 × 6回のビリーフワーク</div>
+</div>
+
+<!-- ========== PAIN ========== -->
+<div class="pain-section">
+  <div>
+    <div class="section-label">こんな感覚、ありませんか？</div>
+    <h2>何度やっても、<br>どこかすっきりしない…</h2>
+    <ul class="pain-list">
+      <li>ビリーフワークを重ねているのに、変化が続かない</li>
+      <li>願いはあるのに、なぜか「受け取れない自分」がいる</li>
+      <li>次のクラスに進みたいけれど、踏み出せないでいる</li>
+      <li>人の目が気になって、自分のやりたいことを堂々と言えない</li>
+      <li>シータは好きなのに、ワークがうまくできている気がしない</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== AFTER ========== -->
+<section>
+  <div class="section-label">このクラスを受けた方の変化</div>
+  <h2>3日後、こんな<em>変化</em>が<br>起きています。</h2>
+  <div class="after-grid">
+    <div class="after-card">
+      <div class="after-icon">✦</div>
+      <div>
+        <strong>ビリーフが「腑に落ちた」</strong>
+        <p>ずっと引っかかっていたビリーフが、やっとクリアになった。今まで一番しっくりきたビリーフワークだった。</p>
+      </div>
+    </div>
+    <div class="after-card">
+      <div class="after-icon">✦</div>
+      <div>
+        <strong>インストラクタークラスへ進めた</strong>
+        <p>「怖い」「予定が合わない」と思っていたのが嘘みたいに、受けたいクラスへ次々と進めるようになった。</p>
+      </div>
+    </div>
+    <div class="after-card">
+      <div class="after-icon">✦</div>
+      <div>
+        <strong>マニフェストの制限が消えた</strong>
+        <p>気づかないうちに自分で引いていた「限界線」が外れて、現実がどんどん動き出した。</p>
+      </div>
+    </div>
+    <div class="after-card">
+      <div class="after-icon">✦</div>
+      <div>
+        <strong>会いたい人に会えた</strong>
+        <p>ずっと憧れていた人に実際に会えた。「叶った！」という体験が重なっていった。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== RICHNESS ========== -->
+<div class="richness-section">
+  <div>
+    <div class="section-label">このクラスが伝える「豊かさ」</div>
+    <h2>本当の豊かさとは、<br>お金だけじゃない。</h2>
+    <div class="richness-grid">
+      <div class="richness-item"><span>○</span>毎日、喜びを感じられること</div>
+      <div class="richness-item"><span>○</span>愛し合えるパートナーがいること</div>
+      <div class="richness-item"><span>○</span>信頼できる仲間がいること</div>
+      <div class="richness-item"><span>○</span>自分の時間がたっぷりあること</div>
+      <div class="richness-item"><span>○</span>アイディアが豊富にあること</div>
+      <div class="richness-item"><span>○</span>物質的な豊かさも、もちろん</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CURRICULUM ========== -->
+<section>
+  <div class="section-label">3日間のカリキュラム</div>
+  <h2>テーマが明確だから、<br><em>ビリーフが見つかる。</em></h2>
+
+  <div class="day-block">
+    <div class="day-label">1日目</div>
+    <div class="curriculum-item">
+      <h3>親からの制限を解く</h3>
+      <p>幼少期に植えつけられた対人関係のパターンを変えると、人生の人間関係そのものが激変します。</p>
+    </div>
+    <div class="curriculum-item">
+      <h3>過去を手放す</h3>
+      <p>過去の成功・失敗・人・会社へのエネルギーを今も握りしめていませんか？「今」を前進するために解放します。</p>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-label">2日目</div>
+    <div class="curriculum-item">
+      <h3>社会に受け入れられる</h3>
+      <p>誰かに否定・拒絶されることへの恐れを解放し、「受け入れられる自分」にシフトします。</p>
+    </div>
+    <div class="curriculum-item">
+      <h3>仲間からのプレッシャーに打ち勝つ</h3>
+      <p>同調圧力・嫉妬・罪悪感から解放され、本当に望む人生を堂々と歩けるよう変容します。</p>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-label">3日目</div>
+    <div class="curriculum-item">
+      <h3>無限の豊かさを受け取る</h3>
+      <p>「働いた分だけ得られる」――それも制限です。気づかない枠から解放され、豊かさを広げます。</p>
+    </div>
+    <div class="curriculum-item">
+      <h3>最高の自分を発揮し、高い志を抱く</h3>
+      <p>完璧主義・先送りのビリーフを手放し、全員でビジョンを祝福するパワフルなマニフェストワークへ。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VETERAN ========== -->
+<div class="pain-section">
+  <div>
+    <div class="section-label">シータ歴が長い方へ</div>
+    <h2>ベテランの方こそ、<br>受けてほしいクラスです。</h2>
+    <div class="veteran-box">
+      <h3>なぜシータ歴が長い人ほど響くのか</h3>
+      <p>
+        豊かさ、対人関係（リレ1・2）、誰と一緒にいるか（リレ3）――このクラスには、他のセミナーで扱うテーマが凝縮されています。<br><br>
+        ディグのようにインストラクターの裁量で幅が出すぎるクラスではなく、<span class="highlight">取り組むべきテーマが明確に定まっている</span>から、ビリーフが見つかりやすく、ワークの実感が生まれやすい。<br><br>
+        「なぜこれをもっと早く受けなかったんだろう」と感じる方が、ベテランほど多いクラスです。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== VOICE ========== -->
+<div class="quote-section">
+  <div>
+    <div class="section-label">受講された方の声（一部）</div>
+    <h2>受けた方が<em>動き出した</em>、<br>リアルな声。</h2>
+    <div class="quote-block">
+      <p>「今まで受けたシータのクラスの中で、一番ビリーフが腑に落ちました。ずっと見つけられなかったものが、ここで初めて見えた気がします。」</p>
+      <p class="q-tag">— シータ歴3年 / 受講生</p>
+    </div>
+    <div class="quote-block">
+      <p>「ベテランさんがたくさんいて怖いと思っていたインストラクタークラスを、このクラスの後から次々と受けられるようになりました。」</p>
+      <p class="q-tag">— 受講生</p>
+    </div>
+    <div class="quote-block">
+      <p>「マニフェストしようとしていたことへの制限に気づいたら、どんどん現実が動いてきた。ブランディにも会えたんです！」</p>
+      <p class="q-tag">— 受講生</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== INSTRUCTOR NOTE ========== -->
+<section>
+  <div class="section-label">インストラクターより</div>
+  <h2>私自身が<em>一番変わった</em>、<br>クラスです。</h2>
+  <div class="instructor-note">
+    <p>
+      今まで受けてきたシータのクラスの中で、このクラスが一番「腑に落ちた」という感覚がありました。<br><br>
+      ビリーフが見つからない、ワークが苦手という感覚があった方も、ここで初めて「見つけられた」という体験ができると思います。<br><br>
+      そして、受けた後からどんどん現実が動いていきました。ずっと行きたかったクラスへの扉が開いて、会いたかった人に会えて――「叶う」の積み重ねが始まっていきました。<br><br>
+      シータ歴に関わらず、まだ受けていないなら、ぜひ。
+    </p>
+    <p class="name">いよりん</p>
+    <p class="role">Theta Healing® マスターインストラクター / mana GRACE</p>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<div class="cta-section">
+  <h2>まずは、公式LINEへ<br>お気軽にどうぞ。</h2>
+  <p>日程・詳細・ご質問など、<br>なんでもお気軽にお問い合わせください。</p>
+  <a href="https://lin.ee/Xt8DBTGl" class="cta-btn">公式LINEで問い合わせる</a>
+  <p class="cta-note">お返事は通常1〜2営業日以内にお送りしています。</p>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer-note">
+  <p class="brand">mana GRACE</p>
+  <p>Theta Healing® is a registered trademark of THInK.</p>
+</div>
+
+</body>
+</html>
