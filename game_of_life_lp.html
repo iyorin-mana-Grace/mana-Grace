@@ -7,29 +7,29 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Noto Sans JP', sans-serif; background: #faf8f4; color: #2c2c2a; line-height: 1.8; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: #f7fbf9; color: #2c2c2a; line-height: 1.8; }
 
   /* HERO */
   .hero {
-    background: linear-gradient(160deg, #e8f3e2 0%, #f5f0e8 50%, #e8eef8 100%);
+    background: linear-gradient(160deg, #d4f0e4 0%, #e8f7f0 40%, #d8eef8 100%);
     padding: 80px 24px 72px;
     text-align: center;
     position: relative;
     overflow: hidden;
   }
-  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 260px; height: 260px; border-radius: 50%; background: rgba(158,225,203,0.2); }
-  .hero::after { content: ''; position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; border-radius: 50%; background: rgba(181,212,244,0.2); }
+  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; border-radius: 50%; background: rgba(100, 210, 170, 0.15); }
+  .hero::after { content: ''; position: absolute; bottom: -50px; left: -50px; width: 220px; height: 220px; border-radius: 50%; background: rgba(100, 180, 240, 0.15); }
 
   .tag {
     display: inline-block;
     font-size: 11px;
     letter-spacing: 0.15em;
-    color: #0f6e56;
-    border: 0.5px solid #5dcaa5;
+    color: #0a7a60;
+    border: 0.5px solid #3dc49a;
     padding: 4px 14px;
     border-radius: 20px;
-    margin-bottom: 28px;
-    background: rgba(255,255,255,0.6);
+    margin-bottom: 24px;
+    background: rgba(255,255,255,0.75);
     position: relative;
     z-index: 1;
   }
@@ -38,31 +38,61 @@
     font-family: 'Noto Serif JP', serif;
     font-weight: 400;
     line-height: 1.4;
-    color: #2c2c2a;
-    margin-bottom: 8px;
+    color: #1a3a30;
+    margin-bottom: 4px;
     position: relative;
     z-index: 1;
   }
   .hero h1 .en {
     font-size: clamp(36px, 9vw, 56px);
     letter-spacing: 0.14em;
-    color: #0f6e56;
+    color: #0a8a6a;
     display: block;
     font-weight: 500;
   }
   .hero h1 .ja {
     font-size: clamp(14px, 3vw, 18px);
     letter-spacing: 0.22em;
-    color: #5f5e5a;
+    color: #4a7a6a;
     display: block;
     margin-top: 8px;
   }
 
+  /* サブタイトル帯 */
+  .hero-subtitle {
+    display: inline-block;
+    margin: 20px auto 12px;
+    background: rgba(255,255,255,0.85);
+    border: 0.5px solid #6dd4b0;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 13px;
+    color: #0a5a46;
+    line-height: 1.9;
+    position: relative;
+    z-index: 1;
+    max-width: 380px;
+  }
+
+  /* 条件バッジ */
+  .condition-badge {
+    display: inline-block;
+    margin-top: 16px;
+    background: #0a8a6a;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    padding: 6px 20px;
+    border-radius: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
   .hero-sub {
     font-size: 14px;
-    color: #5f5e5a;
+    color: #4a6a5a;
     max-width: 360px;
-    margin: 24px auto 32px;
+    margin: 20px auto 28px;
     line-height: 1.9;
     position: relative;
     z-index: 1;
@@ -70,82 +100,85 @@
   .hero-days {
     display: inline-flex;
     gap: 8px;
-    background: rgba(255,255,255,0.7);
-    border: 0.5px solid #c0dd97;
+    background: rgba(255,255,255,0.8);
+    border: 0.5px solid #90dfc0;
     border-radius: 30px;
     padding: 8px 20px;
     font-size: 13px;
-    color: #3b6d11;
+    color: #0a6a50;
     font-weight: 500;
     position: relative;
     z-index: 1;
+    margin-top: 20px;
   }
 
   /* SECTIONS */
   section { padding: 56px 24px; max-width: 680px; margin: 0 auto; }
-  .section-label { font-size: 10px; letter-spacing: 0.2em; color: #888780; text-transform: uppercase; margin-bottom: 8px; }
-  h2 { font-family: 'Noto Serif JP', serif; font-size: clamp(18px, 4vw, 24px); font-weight: 400; line-height: 1.7; margin-bottom: 24px; color: #2c2c2a; }
-  h2 em { font-style: normal; color: #0f6e56; }
+  .section-label { font-size: 10px; letter-spacing: 0.2em; color: #7aaa96; text-transform: uppercase; margin-bottom: 8px; }
+  h2 { font-family: 'Noto Serif JP', serif; font-size: clamp(18px, 4vw, 24px); font-weight: 400; line-height: 1.7; margin-bottom: 24px; color: #1a3a30; }
+  h2 em { font-style: normal; color: #0a8a6a; }
 
   /* PAIN */
-  .pain-section { background: #f5f0e8; }
+  .pain-section { background: #eef8f4; }
   .pain-section > div { max-width: 680px; margin: 0 auto; padding: 56px 24px; }
   .pain-list { list-style: none; }
-  .pain-list li { padding: 14px 0 14px 20px; border-bottom: 0.5px solid #d3d1c7; font-size: 14px; color: #5f5e5a; position: relative; line-height: 1.8; }
-  .pain-list li::before { content: '…'; position: absolute; left: 0; color: #b4b2a9; }
+  .pain-list li { padding: 14px 0 14px 20px; border-bottom: 0.5px solid #b8e0d0; font-size: 14px; color: #4a6a5a; position: relative; line-height: 1.8; }
+  .pain-list li::before { content: '…'; position: absolute; left: 0; color: #90c0b0; }
 
   /* AFTER */
   .after-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 8px; }
   @media (min-width: 480px) { .after-grid { grid-template-columns: repeat(2, 1fr); } }
-  .after-card { background: #fff; border: 0.5px solid #c0dd97; border-radius: 12px; padding: 16px 18px; display: flex; gap: 14px; align-items: flex-start; }
-  .after-icon { width: 32px; height: 32px; border-radius: 50%; background: #eaf3de; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
-  .after-card p { font-size: 13px; color: #444441; line-height: 1.8; }
-  .after-card strong { display: block; font-size: 14px; font-weight: 500; color: #27500a; margin-bottom: 4px; }
+  .after-card { background: #fff; border: 0.5px solid #90dfc0; border-radius: 12px; padding: 16px 18px; display: flex; gap: 14px; align-items: flex-start; }
+  .after-icon { width: 32px; height: 32px; border-radius: 50%; background: #d4f4e8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; color: #0a8a6a; }
+  .after-card p { font-size: 13px; color: #4a5a54; line-height: 1.8; }
+  .after-card strong { display: block; font-size: 14px; font-weight: 500; color: #0a6a50; margin-bottom: 4px; }
 
   /* RICHNESS */
-  .richness-section { background: #e8f3e2; }
+  .richness-section { background: #d8f4ec; }
   .richness-section > div { max-width: 680px; margin: 0 auto; padding: 56px 24px; }
   .richness-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px; }
-  .richness-item { background: rgba(255,255,255,0.7); border: 0.5px solid #9fe1cb; border-radius: 10px; padding: 14px; font-size: 13px; color: #085041; line-height: 1.7; }
-  .richness-item span { display: block; font-size: 18px; margin-bottom: 6px; }
+  .richness-item { background: rgba(255,255,255,0.8); border: 0.5px solid #70d4b0; border-radius: 10px; padding: 14px; font-size: 13px; color: #0a5a44; line-height: 1.7; }
+  .richness-item span { display: block; font-size: 18px; margin-bottom: 6px; color: #0a8a6a; }
 
   /* CURRICULUM */
   .day-block { margin-bottom: 32px; }
-  .day-label { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; color: #fff; background: #1d9e75; padding: 4px 12px; border-radius: 4px; margin-bottom: 14px; }
-  .curriculum-item { background: #fff; border-left: 2px solid #5dcaa5; border-top: 0.5px solid #e8f3e2; border-right: 0.5px solid #e8f3e2; border-bottom: 0.5px solid #e8f3e2; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 10px; }
-  .curriculum-item h3 { font-size: 14px; font-weight: 500; color: #27500a; margin-bottom: 6px; }
-  .curriculum-item p { font-size: 12px; color: #5f5e5a; line-height: 1.8; }
+  .day-label { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; color: #fff; background: #0a9a74; padding: 4px 12px; border-radius: 4px; margin-bottom: 14px; }
+  .curriculum-item { background: #fff; border-left: 2px solid #3dc49a; border-top: 0.5px solid #d4f0e8; border-right: 0.5px solid #d4f0e8; border-bottom: 0.5px solid #d4f0e8; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 10px; }
+  .curriculum-item h3 { font-size: 14px; font-weight: 500; color: #0a6a50; margin-bottom: 6px; }
+  .curriculum-item p { font-size: 12px; color: #4a6a5a; line-height: 1.8; }
 
   /* VETERAN */
-  .veteran-box { background: #fff; border: 0.5px solid #b5d4f4; border-radius: 12px; padding: 24px 20px; margin-top: 16px; }
-  .veteran-box h3 { font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 400; color: #185fa5; margin-bottom: 12px; }
-  .veteran-box p { font-size: 13px; color: #5f5e5a; line-height: 1.9; }
-  .veteran-box .highlight { color: #185fa5; font-weight: 500; }
+  .veteran-section { background: #eef8f4; }
+  .veteran-section > div { max-width: 680px; margin: 0 auto; padding: 56px 24px; }
+  .veteran-box { background: #fff; border: 0.5px solid #80c8f0; border-radius: 12px; padding: 24px 20px; margin-top: 16px; }
+  .veteran-box h3 { font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 400; color: #1a6090; margin-bottom: 12px; }
+  .veteran-box p { font-size: 13px; color: #4a6a5a; line-height: 1.9; }
+  .veteran-box .highlight { color: #1a7aaa; font-weight: 500; }
 
   /* QUOTES */
-  .quote-section { background: #f5f0e8; }
+  .quote-section { background: #e8f6ff; }
   .quote-section > div { max-width: 680px; margin: 0 auto; padding: 56px 24px; }
-  .quote-block { background: #fff; border-left: 3px solid #1d9e75; border-top: 0.5px solid #e8f3e2; border-right: 0.5px solid #e8f3e2; border-bottom: 0.5px solid #e8f3e2; border-radius: 0 12px 12px 0; padding: 20px 20px 20px 24px; margin-bottom: 12px; }
-  .quote-block p { font-size: 13px; color: #444441; line-height: 1.9; }
-  .quote-block .q-tag { font-size: 11px; color: #888780; margin-top: 8px; }
+  .quote-block { background: #fff; border-left: 3px solid #0a9a74; border-top: 0.5px solid #d4f0e8; border-right: 0.5px solid #d4f0e8; border-bottom: 0.5px solid #d4f0e8; border-radius: 0 12px 12px 0; padding: 20px 20px 20px 24px; margin-bottom: 12px; }
+  .quote-block p { font-size: 13px; color: #3a5a4a; line-height: 1.9; }
+  .quote-block .q-tag { font-size: 11px; color: #7aaa96; margin-top: 8px; }
 
   /* INSTRUCTOR NOTE */
-  .instructor-note { background: #fff; border: 0.5px solid #c0dd97; border-radius: 12px; padding: 24px; margin-top: 16px; }
-  .instructor-note p { font-size: 13px; color: #5f5e5a; line-height: 1.9; }
-  .instructor-note .name { font-size: 14px; font-weight: 500; color: #27500a; margin-top: 16px; }
-  .instructor-note .role { font-size: 12px; color: #888780; }
+  .instructor-note { background: #fff; border: 0.5px solid #90dfc0; border-radius: 12px; padding: 24px; margin-top: 16px; }
+  .instructor-note p { font-size: 13px; color: #4a6a5a; line-height: 1.9; }
+  .instructor-note .name { font-size: 14px; font-weight: 500; color: #0a6a50; margin-top: 16px; }
+  .instructor-note .role { font-size: 12px; color: #7aaa96; }
 
   /* CTA */
-  .cta-section { background: linear-gradient(150deg, #085041 0%, #1d9e75 100%); padding: 64px 24px; text-align: center; }
+  .cta-section { background: linear-gradient(150deg, #0a6a50 0%, #0aba84 100%); padding: 64px 24px; text-align: center; }
   .cta-section h2 { font-family: 'Noto Serif JP', serif; font-size: clamp(18px, 4vw, 24px); font-weight: 400; color: #fff; margin-bottom: 16px; line-height: 1.7; }
-  .cta-section p { font-size: 13px; color: rgba(255,255,255,0.75); margin-bottom: 32px; line-height: 1.9; }
-  .cta-btn { display: inline-block; background: #fff; color: #085041; font-size: 14px; font-weight: 500; padding: 16px 40px; border-radius: 40px; text-decoration: none; letter-spacing: 0.05em; }
-  .cta-note { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 16px; }
+  .cta-section p { font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 32px; line-height: 1.9; }
+  .cta-btn { display: inline-block; background: #fff; color: #0a6a50; font-size: 14px; font-weight: 500; padding: 16px 40px; border-radius: 40px; text-decoration: none; letter-spacing: 0.05em; }
+  .cta-note { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 16px; }
 
   /* FOOTER */
-  .footer-note { background: #2c2c2a; padding: 32px 24px; text-align: center; }
-  .footer-note p { font-size: 12px; color: #888780; line-height: 1.9; }
-  .footer-note .brand { font-size: 14px; color: #9fe1cb; font-weight: 500; margin-bottom: 8px; letter-spacing: 0.1em; }
+  .footer-note { background: #1a3a30; padding: 32px 24px; text-align: center; }
+  .footer-note p { font-size: 12px; color: #7aaa96; line-height: 1.9; }
+  .footer-note .brand { font-size: 14px; color: #6ddfc0; font-weight: 500; margin-bottom: 8px; letter-spacing: 0.1em; }
 </style>
 </head>
 <body>
@@ -157,8 +190,14 @@
     <span class="en">GAME OF LIFE</span>
     <span class="ja">ゲームオブライフ</span>
   </h1>
+  <div class="hero-subtitle">
+    「願いが叶う人の在り方」<br>
+    「豊かさを受け取れる器」を育てるクラス
+  </div>
+  <br>
+  <div class="condition-badge">条件：DIG DEEPER 修了</div>
   <p class="hero-sub">シータ波で現実創造の仕組みを体感する、<br>自分の人生を歩むための旅。</p>
-  <div class="hero-days">「願いが叶う人の在り方」「豊かさを受け取れる器」を育てるクラス</div>
+  <div class="hero-days">3日間 × 6回のビリーフワーク</div>
 </div>
 
 <!-- ========== PAIN ========== -->
@@ -265,16 +304,17 @@
     </div>
     <div class="curriculum-item">
       <h3>最高の自分を発揮する</h3>
-      <p>気が付かなかった完璧主義・先送りのビリーフを手放し、自分の能力を100%発揮できるあなたへ。最高の自分を発揮したらどうなるでしょうか。</p> 
-    </div>      
-    </div><div class="curriculum-item">
+      <p>気が付かなかった完璧主義・先送りのビリーフを手放し、自分の能力を100%発揮できるあなたへ。最高の自分を発揮したらどうなるでしょうか。</p>
+    </div>
+    <div class="curriculum-item">
       <h3>高い志を抱く</h3>
-      <p>自分には無限の可能性があると思えていますか？全員であなたのビジョンを祝福するパワフルなマニフェストワークをします。最高の気分を味わえます！</p>    
+      <p>自分には無限の可能性があると思えていますか？全員であなたのビジョンを祝福するパワフルなマニフェストワークをします。最高の気分を味わえます！</p>
+    </div>
   </div>
 </section>
 
 <!-- ========== VETERAN ========== -->
-<div class="pain-section">
+<div class="veteran-section">
   <div>
     <div class="section-label">シータ歴が長い方へ</div>
     <h2>実はベテランの方にこそ、<br>受けてほしいクラスです。</h2>
