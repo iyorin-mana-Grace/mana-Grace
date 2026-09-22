@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>豊かさと願いの実現２</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8CC7A;
+  --gold-deep: #7A6320;
+  --gold-pale: #F5E6A3;
+  --gold-mid: #D4B55A;
+  --cream: #FDF8EC;
+  --cream-bright: #FFFDF5;
+  --cream-warm: #FBF3DC;
+  --text: #3A3020;
+  --text-mid: #6B5B35;
+  --text-light: #9A8560;
+  --line: rgba(201,168,76,0.28);
+  --line-strong: rgba(201,168,76,0.45);
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*, *::before, *::after { box-sizing: inherit; margin: 0; padding: 0; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+html, body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 300;
+  line-height: 1.85;
+  font-size: 17px;
+}
+
+/* 光粒子 */
+.particles {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,204,122,0.6) 0%, transparent 70%);
+  animation: drift linear infinite;
+}
+.particle.large {
+  background: radial-gradient(circle, rgba(212,181,90,0.35) 0%, transparent 65%);
+}
+@keyframes drift {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  8%   { opacity: 1; }
+  88%  { opacity: 0.45; }
+  100% { transform: translateY(-20vh) scale(1.3); opacity: 0; }
+}
+
+/* 全体レイアウト */
+.page {
+  position: relative; z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 26px 80px;
+}
+
+/* フェードイン */
+.fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.fade-in.visible { opacity: 1; transform: none; }
+
+/* ステップバッジ */
+.step-bridge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 48px 0 0;
+}
+.step-badge {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--cream-bright);
+  background: linear-gradient(135deg, var(--gold-deep) 0%, var(--gold) 60%, var(--gold-light) 100%);
+  padding: 6px 16px;
+  display: inline-block;
+}
+.step-arrow {
+  color: var(--gold);
+  font-size: 14px;
+}
+.step-prev {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: var(--text-light);
+}
+
+/* ヒーロー */
+.hero {
+  text-align: center;
+  padding: 36px 0 48px;
+  position: relative;
+}
+.hero-gold-bar {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  margin-bottom: 40px;
+  position: relative;
+}
+.hero-gold-bar::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 24px;
+  background: radial-gradient(ellipse, rgba(232,204,122,0.4) 0%, transparent 70%);
+}
+.hero-eyebrow {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 13px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.hero-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: clamp(26px, 6vw, 34px);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.hero-title-num {
+  font-size: 1.25em;
+  color: var(--gold);
+  vertical-align: baseline;
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.hero-tag {
+  display: inline-block;
+  border: 1px solid var(--line-strong);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: var(--gold-deep);
+  padding: 5px 16px;
+  font-family: 'Shippori Mincho', serif;
+  margin-bottom: 36px;
+}
+
+/* 体験談 */
+.story {
+  background: linear-gradient(135deg, rgba(245,230,163,0.28) 0%, rgba(253,248,236,0) 100%);
+  border-left: 2px solid var(--gold-light);
+  padding: 28px 28px 28px 32px;
+  margin: 0 0 64px;
+  font-size: 16px;
+  color: var(--text-mid);
+  font-family: 'Shippori Mincho', serif;
+  line-height: 2;
+  position: relative;
+}
+.story::after {
+  content: '';
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at bottom right, rgba(232,204,122,0.18) 0%, transparent 70%);
+}
+
+/* セクション共通 */
+.section { margin-bottom: 64px; }
+.section-label {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-bottom: 32px;
+  text-align: center;
+  font-family: 'Shippori Mincho', serif;
+}
+
+/* ベネフィット */
+.benefit-list { display: flex; flex-direction: column; gap: 12px; }
+.benefit-item {
+  background: linear-gradient(135deg, rgba(245,230,163,0.18) 0%, var(--cream-bright) 100%);
+  border: 1px solid var(--line);
+  padding: 26px 26px 26px 22px;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 16px;
+  align-items: start;
+  position: relative;
+  overflow: hidden;
+}
+.benefit-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--gold-light), var(--gold));
+}
+.benefit-mark {
+  font-family: 'Shippori Mincho', serif;
+  color: var(--gold);
+  font-size: 16px;
+  line-height: 1.7;
+  flex-shrink: 0;
+}
+.benefit-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.benefit-body {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.95;
+}
+
+/* 内容リスト */
+.content-box {
+  background: var(--cream-bright);
+  border: 1px solid var(--line);
+  padding: 36px 32px;
+  position: relative;
+}
+.content-box::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(201,168,76,0.1);
+  pointer-events: none;
+}
+.content-box::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle at top right, rgba(232,204,122,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+.content-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.content-list li {
+  font-size: 15px;
+  color: var(--text-mid);
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.8;
+}
+.content-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 13px;
+  top: 2px;
+}
+
+/* こんな方へ */
+.for-whom-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.for-whom-list li {
+  font-size: 16px;
+  color: var(--text-mid);
+  padding-left: 22px;
+  position: relative;
+  line-height: 1.75;
+}
+.for-whom-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 7px;
+  height: 1px;
+  background: var(--gold);
+}
+
+/* 受講条件 */
+.condition {
+  text-align: center;
+  padding: 32px 24px 48px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(245,230,163,0.1) 0%, transparent 100%);
+}
+.condition-label {
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 14px;
+  font-family: 'Shippori Mincho', serif;
+}
+.condition-text {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 2;
+  margin-bottom: 16px;
+}
+.condition-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 0;
+}
+.condition-step {
+  font-size: 13px;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.condition-step-arrow {
+  color: var(--gold);
+  font-size: 12px;
+  margin: 0 3px;
+}
+
+@media (max-width: 480px) {
+  .page { padding: 0 20px 64px; }
+  .content-box { padding: 28px 20px; }
+  .story { padding: 22px 20px 22px 24px; }
+  .benefit-item { padding: 22px 18px 22px 18px; }
+  .condition-steps { flex-direction: column; align-items: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in { transition: none; }
+  .particle { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="page">
+
+  <!-- ステップバッジ -->
+  <div class="step-bridge fade-in">
+    <span class="step-prev">豊かさと願いの実現</span>
+    <span class="step-arrow">›</span>
+    <span class="step-badge">STEP 2</span>
+  </div>
+
+  <!-- ヒーロー -->
+  <header class="hero fade-in">
+    <div class="hero-gold-bar"></div>
+    <p class="hero-eyebrow">ThetaHealing Seminar</p>
+    <h1 class="hero-title">
+      豊かさと願いの実現<span class="hero-title-num">２</span><br>
+      <span style="font-size:0.72em; color:var(--text-mid)">～ビジョンから現実へ</span>
+    </h1>
+    <p class="hero-sub">ヒーラー・サイキックのためのビジネスの扉を開く</p>
+    <span class="hero-tag">2026年スタートの最新クラス</span>
+  </header>
+
+  <!-- 体験談 -->
+  <blockquote class="story fade-in">
+    ブロックは外したはずなのに、まだ現実が動いていない気がするって感じたことはありませんか？ブロックを外すことと、豊かさを受け取り続けられる自分になることは、少し違います。このクラスを受けて、毎日のエネルギーの整え方や創造の仕方が根本から変化しました。
+  </blockquote>
+
+  <!-- ベネフィット -->
+  <section class="section fade-in">
+    <p class="section-label">このセミナーで得られること</p>
+    <div class="benefit-list">
+      <div class="benefit-item">
+        <span class="benefit-mark">✦</span>
+        <div>
+          <p class="benefit-title">豊かさを受け取り続けるための日常の整え方が分かる</p>
+          <p class="benefit-body">単発のビリーフ解放ではなく、朝のルーティン・波動チェックイン・毎日のアライメントなど、継続的に豊かさを受け取れる自分を育てる具体的な手法を学びます。</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-mark">✦</span>
+        <div>
+          <p class="benefit-title">競争から抜け出し、愛から創造できるようになる</p>
+          <p class="benefit-body">気づかないうちに誰かと比べ、「まだ足りない」という波動で創造しようとしていると、創造主との繋がりが薄くなります。競争のエネルギーを手放し、喜びと愛から創造するシフトを起こします。</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-mark">✦</span>
+        <div>
+          <p class="benefit-title">ヒーリングビジネスを加速する視点が手に入る</p>
+          <p class="benefit-body">Viannaと娘のBrandyが作った、ヒーラー・サイキックに特化したクラスです。趣味から職業へのシフト、自信と知名度、ビジネスのマニフェストなど、現実的な内容が豊富に含まれます。</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-mark">✦</span>
+        <div>
+          <p class="benefit-title">チェックリスト7種類を使った徹底的なビリーフワーク</p>
+          <p class="benefit-body">2日間とは思えない内容の濃さです。Viannaが「2〜3日に分けてもいい」と言うほど。エネルギーシフトが軽やかな今だからこそ、これだけの量を受け取れます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- セミナー内容 -->
+  <section class="section fade-in">
+    <p class="section-label">セミナー内容</p>
+    <div class="content-box">
+      <ul class="content-list">
+        <li>自分の思考に気づき続ける</li>
+        <li>朝のマニフェスト・ルーチン</li>
+        <li>波動チェックイン</li>
+        <li>繋がりへの回帰</li>
+        <li>競争を手放す</li>
+        <li>責任転嫁をやめる・決断を下す</li>
+        <li>豊かさのブロック（受け取ることへの抵抗）</li>
+        <li>幻想の法則と瞬間マニフェストの波動</li>
+        <li>趣味から職業へ</li>
+        <li>毎日のアライメント練習</li>
+        <li>「持つ」エネルギーVS「感謝」のエネルギー</li>
+        <li>自信と知名度</li>
+        <li>ヒーリングビジネスを調和させるアファメーション</li>
+        <li>マニフェストを維持する・3ステップの実現フロー　他</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- こんな方へ -->
+  <section class="section fade-in">
+    <p class="section-label">こんな方へ</p>
+    <ul class="for-whom-list">
+      <li>シータヒーラー・シータインストラクター</li>
+      <li>コーチ・コンサル・セラピストなどヒーリング系の職業の方</li>
+      <li>潜在意識・スピリチュアルな領域を扱う方</li>
+      <li>事業主・起業家</li>
+      <li>ビジネスをもっと豊かに動かしたい方</li>
+      <li>マニフェスト力をさらに上げたい方</li>
+    </ul>
+  </section>
+
+  <!-- 受講条件 -->
+  <div class="condition fade-in">
+    <p class="condition-label">受講条件</p>
+    <p class="condition-text">以下のクラスを修了していること</p>
+    <div class="condition-steps">
+      <span class="condition-step">基礎DNA</span>
+      <span class="condition-step-arrow">›</span>
+      <span class="condition-step">応用DNA</span>
+      <span class="condition-step-arrow">›</span>
+      <span class="condition-step">ディグディーパー</span>
+      <span class="condition-step-arrow">›</span>
+      <span class="condition-step">豊かさと願いの実現</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const container = document.getElementById('particles');
+  const configs = [
+    { count: 18, minSize: 4,  maxSize: 10, cls: '' },
+    { count: 6,  minSize: 14, maxSize: 22, cls: 'large' },
+  ];
+  configs.forEach(({ count, minSize, maxSize, cls }) => {
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'particle' + (cls ? ' ' + cls : '');
+      const size = minSize + Math.random() * (maxSize - minSize);
+      el.style.cssText = [
+        `width:${size}px`, `height:${size}px`,
+        `left:${Math.random() * 100}%`,
+        `animation-duration:${9 + Math.random() * 14}s`,
+        `animation-delay:${Math.random() * 14}s`
+      ].join(';');
+      container.appendChild(el);
+    }
+  });
+})();
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
